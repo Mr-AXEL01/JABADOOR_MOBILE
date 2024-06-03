@@ -6,14 +6,13 @@ import Listings from '@/components/Listings'
 
 const Page = () => {
   return (
-    <View style={{ flex: 1}}>
-      <Stack.Screen 
-        options={{
-          header:() => <ExploreHeader />,
-        }}
-      />
-      <Listings />
-    </View>
+      <View style={{ flex: 1, marginTop: 80 }}>
+        <Stack.Screen 
+          options={{
+            header:() => <ExploreHeader />,
+          }}
+        />
+      </View>
   );
 };
 
