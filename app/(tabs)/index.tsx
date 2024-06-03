@@ -8,6 +8,9 @@ const Page = () => {
       <Link href="/(modals)/booking">
         Booking
       </Link>
+      <Link href="/listing/1337">
+        Listing details
+      </Link>
     </View>
   );
 };
