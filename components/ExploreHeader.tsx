@@ -46,7 +46,7 @@ const ExploreHeader = () => {
             categories.map((category) => (
                 <TouchableOpacity key={category.category_code} style={styles.categoryBtn}>
                   <Image source={{ uri: category.image }} style={styles.categoryIcon} />
-                  <Text>{category.name}</Text>
+                  <Text style={styles.categoryText}>{category.name}</Text>
                 </TouchableOpacity>
               ))              
           )}
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     },
   },
   categoryBtn: {
-    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
     marginHorizontal: 5,
@@ -106,6 +106,11 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 10,
     borderRadius: 24,
+  },
+  categoryText: {
+    fontSize: 14,
+    fontFamily: 'mon-sb',
+    color: Colors.grey,
   },
 });
 
