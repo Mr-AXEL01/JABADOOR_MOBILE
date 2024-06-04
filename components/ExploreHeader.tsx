@@ -10,9 +10,9 @@ const ExploreHeader = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('https://4ftcx09z94.execute-api.eu-north-1.amazonaws.com/dev/categories')
+    axios.get('https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/categories')
       .then(response => {
-        setCategories(response.data);
+        setCategories(response.data);        
         setLoading(false);
       })
       .catch(error => {
@@ -22,12 +22,12 @@ const ExploreHeader = () => {
   }, []);
   
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingTop: 35 }}>
+    <SafeAreaView style={{ backgroundColor: '#fff', paddingTop: 35 }}>
       <View style={styles.container}>
         <View style={styles.actionRow}>
           <Link href={'/(modals)/booking'} asChild>
             <TouchableOpacity style={styles.searchBtn}>
-            <Ionicons name="search" size={24} />
+              <Ionicons name="search" size={24} />
               <View>
                 <Text style={{ fontFamily: 'mon-sb' }}>Where to?</Text>
                 <Text style={{ color: Colors.grey, fontFamily: 'mon' }}>Anywhere · Any week</Text>
@@ -35,20 +35,28 @@ const ExploreHeader = () => {
             </TouchableOpacity>
           </Link>
           <TouchableOpacity style={styles.filterBtn}>
-          <Ionicons name="options-outline" size={24} />
+            <Ionicons name="options-outline" size={24} />
           </TouchableOpacity>
         </View>
         
-        <ScrollView horizontal>
+        <ScrollView 
+          horizontal={true}
+          style={{ flex: 1 }}
+          contentContainerStyle={{
+            alignItems: 'center',
+            paddingHorizontal: 10,
+          }}
+          showsHorizontalScrollIndicator={false}
+        >
           {loading ? (
             <ActivityIndicator size="large" color={Colors.primary} />
           ) : (
             categories.map((category) => (
-                <TouchableOpacity key={category.category_code} style={styles.categoryBtn}>
-                  <Image source={{ uri: category.image }} style={styles.categoryIcon} />
-                  <Text style={styles.categoryText}>{category.name}</Text>
-                </TouchableOpacity>
-              ))              
+              <TouchableOpacity key={category.category_code} style={styles.categoryBtn}>
+                <Image source={{ uri: category.image }} style={styles.categoryIcon} />
+                <Text style={styles.categoryText}>{category.name}</Text>
+              </TouchableOpacity>
+            ))              
           )}
         </ScrollView>    
       </View>
@@ -77,7 +85,6 @@ const styles = StyleSheet.create({
   searchBtn: {
     backgroundColor: '#fff',
     flexDirection: 'row',
-    gap: 10,
     padding: 8,
     alignItems: 'center',
     width: 280,
@@ -104,7 +111,6 @@ const styles = StyleSheet.create({
   categoryIcon: {
     width: 30,
     height: 30,
-    marginRight: 10,
     borderRadius: 24,
   },
   categoryText: {
