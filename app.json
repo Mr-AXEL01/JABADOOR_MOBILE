@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.axel01.JABADOOR_MOBILE"
     },
     "web": {
       "bundler": "metro",
@@ -32,6 +33,14 @@
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "61273bcc-ead2-470e-9ad8-8d3237f415d8"
+      }
     }
   }
 }

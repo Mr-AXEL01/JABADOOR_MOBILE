@@ -3,16 +3,16 @@ import { View, SafeAreaView, StyleSheet, TouchableOpacity, Text, ScrollView, Act
 import { Link } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 
 const ExploreHeader = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://4ftcx09z94.execute-api.eu-north-1.amazonaws.com/dev/categories')
-      .then(response => response.json())
-      .then(data => {
-        setCategories(data);
+    axios.get('https://4ftcx09z94.execute-api.eu-north-1.amazonaws.com/dev/categories')
+      .then(response => {
+        setCategories(response.data);
         setLoading(false);
       })
       .catch(error => {
@@ -22,7 +22,7 @@ const ExploreHeader = () => {
   }, []);
   
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingTop: 35 }}>
       <View style={styles.container}>
         <View style={styles.actionRow}>
           <Link href={'/(modals)/booking'} asChild>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'row',
     gap: 10,
-    padding: 14,
+    padding: 8,
     alignItems: 'center',
     width: 280,
     borderWidth: StyleSheet.hairlineWidth,
