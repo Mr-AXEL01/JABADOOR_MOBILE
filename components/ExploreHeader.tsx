@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, StyleSheet, TouchableOpacity, Text, ScrollView, ActivityIndicator, Image } from 'react-native';
 import { Link } from 'expo-router';
 import Colors from '@/constants/Colors';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
 
 const ExploreHeader = ({ onSelectCategory }) => {
@@ -28,7 +28,7 @@ const ExploreHeader = ({ onSelectCategory }) => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#fff', paddingTop: 35, marginBottom: 20 }}>
+    <SafeAreaView style={{ backgroundColor: '#fff', paddingTop: 35 }}>
       <View style={styles.container}>
         <View style={styles.actionRow}>
           <Link href={'/(modals)/booking'} asChild>
@@ -61,7 +61,7 @@ const ExploreHeader = ({ onSelectCategory }) => {
                   onPress={() => handleCategorySelect(category.category_code)}
                 >
                   {category.category_code === 'all' ? (
-                    <Entypo name="globe" size={30} style={{padding: 10}} />
+                    <FontAwesome5 name="globe" size={30} style={{padding: 10}} />
                   ) : (
                     <Image source={{ uri: category.image }} style={styles.categoryIcon} />
                   )}

@@ -42,7 +42,7 @@ const Listings = ({ selectedCategory }) => {
   );
 
   return (
-    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+    <View style={{ flex: 1 }}>
       {loading ? (
         <ActivityIndicator size="large" color={Colors.primary} />
       ) : (
@@ -52,10 +52,16 @@ const Listings = ({ selectedCategory }) => {
             keyExtractor={(item) => item.Host_code}
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 20 }}
+            contentContainerStyle={{ paddingBottom: 20 , marginHorizontal: 20 , marginTop: 20 }}
           />
         ) : (
-          <Text>No listings available for this category.</Text>
+          <View style={styles.noListingsContainer}>
+            <Image
+              source={{ uri: 'https://res.cloudinary.com/dofubyjcd/image/upload/v1717607025/system/meb4jgxbgoenfqj9ur7y.png' }}
+              style={styles.noListingsImage}
+            />
+            <Text style={styles.noListingsText}>No listings available for this category.</Text>
+          </View>
         )
       )}
     </View>
@@ -104,6 +110,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     fontWeight: 'bold',
+  },
+  noListingsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#D0D0D0',
+  },
+  noListingsImage: {
+    width: 300,
+    height: 300,
+    marginBottom: 20,
+    borderRadius: 20,
+  },
+  noListingsText: {
+    fontSize: 16,
+    color: Colors.grey,
+    textAlign: 'center',
   },
 });
 
