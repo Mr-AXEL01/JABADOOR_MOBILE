@@ -28,8 +28,22 @@ const Listings = ({ selectedCategory }) => {
     ? listings.filter(listing => listing.category.category_code === selectedCategory)
     : listings;
 
+  const renderItem = ({ item }) => (
+    <View style={styles.card}>
+      <Image source={{ uri: item.image[0].secure_url }} style={styles.image} />
+      <View style={styles.cardContent}>
+        <Text style={styles.title}>{item.nom}</Text>
+        <Text style={styles.description}>{item.About}</Text>
+        <View style={styles.infoRow}>
+          <Text style={styles.rating}>Rating: {item.Rating}</Text>
+          <Text style={styles.price}>Price: ${item.price}</Text>
+        </View>
+      </View>
+    </View>
+  );
+
   return (
-    <View style={{ padding: 20 }}>
+    <View style={{ flex: 1, paddingHorizontal: 20 }}>
       {loading ? (
         <ActivityIndicator size="large" color={Colors.primary} />
       ) : (
@@ -37,20 +51,9 @@ const Listings = ({ selectedCategory }) => {
           <FlatList
             data={filteredListings}
             keyExtractor={(item) => item.Host_code}
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                <Image source={{ uri: item.image[0].secure_url }} style={styles.image} />
-                <View style={styles.cardContent}>
-                  <Text style={styles.title}>{item.nom}</Text>
-                  <Text style={styles.description}>{item.About}</Text>
-                  <View style={{ justifyContent: 'space-between' , flexDirection: 'row'}}>
-                  <Text style={styles.rating}>Rating: {item.Rating}</Text>
-                  <Text style={styles.price}>Price: ${item.price}</Text>
-                  </View>
-                
-                </View>
-              </View>
-            )}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 20 }}
           />
         ) : (
           <Text>No listings available for this category.</Text>
@@ -88,6 +91,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#888',
     marginBottom: 10,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   rating: {
     fontSize: 16,
