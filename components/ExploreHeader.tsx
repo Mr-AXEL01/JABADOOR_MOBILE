@@ -5,14 +5,15 @@ import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 
-const ExploreHeader = () => {
+const ExploreHeader = ({ onSelectCategory }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     axios.get('https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/categories')
       .then(response => {
-        setCategories(response.data);        
+        setCategories(response.data);
         setLoading(false);
       })
       .catch(error => {
@@ -20,7 +21,12 @@ const ExploreHeader = () => {
         setLoading(false);
       });
   }, []);
-  
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category.category_code);
+    onSelectCategory(category.category_code);
+  };
+
   return (
     <SafeAreaView style={{ backgroundColor: '#fff', paddingTop: 35 }}>
       <View style={styles.container}>
@@ -38,31 +44,28 @@ const ExploreHeader = () => {
             <Ionicons name="options-outline" size={24} />
           </TouchableOpacity>
         </View>
-        
-        <ScrollView 
-          horizontal={true}
-          style={{ flex: 1 }}
-          contentContainerStyle={{
-            alignItems: 'center',
-            paddingHorizontal: 10,
-          }}
-          showsHorizontalScrollIndicator={false}
-        >
+        <ScrollView horizontal={true} style={{ flex: 1 }} contentContainerStyle={{ alignItems: 'center', paddingHorizontal: 10 }} showsHorizontalScrollIndicator={false}>
           {loading ? (
             <ActivityIndicator size="large" color={Colors.primary} />
           ) : (
             categories.map((category) => (
-              <TouchableOpacity key={category.category_code} style={styles.categoryBtn}>
+              <TouchableOpacity
+                key={category.category_code}
+                style={[styles.categoryBtn, selectedCategory === category.category_code && styles.selectedCategoryBtn]}
+                onPress={() => handleCategorySelect(category)}
+              >
                 <Image source={{ uri: category.image }} style={styles.categoryIcon} />
-                <Text style={styles.categoryText}>{category.name}</Text>
+                <Text style={[styles.categoryText, selectedCategory === category.category_code && styles.selectedCategoryText]}>
+                  {category.name}
+                </Text>
               </TouchableOpacity>
-            ))              
+            ))
           )}
-        </ScrollView>    
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -95,10 +98,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.12,
     shadowRadius: 8,
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
+    shadowOffset: { width: 1, height: 1 },
   },
   categoryBtn: {
     justifyContent: 'center',
@@ -107,6 +107,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     backgroundColor: Colors.lightGrey,
     borderRadius: 20,
+  },
+  selectedCategoryBtn: {
+    backgroundColor: Colors.primary,
   },
   categoryIcon: {
     width: 30,
@@ -117,6 +120,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'mon-sb',
     color: Colors.grey,
+  },
+  selectedCategoryText: {
+    color: '#fff',
   },
 });
 
