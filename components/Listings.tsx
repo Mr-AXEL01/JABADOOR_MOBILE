@@ -1,4 +1,3 @@
-// Listings.tsx
 import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -24,7 +23,7 @@ const Listings = ({ selectedCategory }) => {
     fetchData();
   }, []);
 
-  const filteredListings = selectedCategory
+  const filteredListings = selectedCategory && selectedCategory !== 'all'
     ? listings.filter(listing => listing.category.category_code === selectedCategory)
     : listings;
 
