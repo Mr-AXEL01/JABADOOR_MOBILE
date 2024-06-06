@@ -39,7 +39,7 @@ const Listings = ({ selectedCategory }) => {
         <Text style={styles.description}>{item.About}</Text>
         <View style={styles.infoRow}>
           <View style={{flexDirection: 'row'}}>
-            <Ionicons name="star" size={16} style={{marginTop: 3}}/>
+            <Ionicons name="star" size={16} style={{marginTop: 2.5}}/>
             <Text style={styles.rating}>{item.Rating}</Text>
           </View>
           <Text style={styles.price}>Price: ${item.price}</Text>
