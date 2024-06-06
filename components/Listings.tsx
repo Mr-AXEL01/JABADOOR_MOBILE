@@ -2,12 +2,14 @@ import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image, TouchableOp
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Colors from '@/constants/Colors';
-import { Ionicons} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
+import { useNavigation } from 'expo-router';
 
 const Listings = ({ selectedCategory }) => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,21 +33,23 @@ const Listings = ({ selectedCategory }) => {
 
   const renderItem = ({ item }) => (
     <Animated.View style={styles.card} entering={FadeInRight} exiting={FadeOutLeft}>
-      <Image source={{ uri: item.image[0].secure_url }} style={styles.image} />
-      <TouchableOpacity style={{ position: 'absolute', right: 15, top: 15 }}>
-        <Ionicons name="heart-outline" size={24} color="#000" />
-      </TouchableOpacity>
-      <View style={styles.cardContent}>
-        <Text style={styles.title}>{item.nom}</Text>
-        <Text style={styles.description}>{item.About}</Text>
-        <View style={styles.infoRow}>
-          <View style={{flexDirection: 'row'}}>
-            <Ionicons name="star" size={16} style={{marginTop: 2.5}}/>
-            <Text style={styles.rating}>{item.Rating}</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('listing/[Host_code]', { Host_code: item.Host_code })}>
+        <Image source={{ uri: item.image[0].secure_url }} style={styles.image} />
+        <TouchableOpacity style={{ position: 'absolute', right: 15, top: 15 }}>
+          <Ionicons name="heart-outline" size={24} color="#000" />
+        </TouchableOpacity>
+        <View style={styles.cardContent}>
+          <Text style={styles.title}>{item.nom}</Text>
+          <Text style={styles.description}>{item.About}</Text>
+          <View style={styles.infoRow}>
+            <View style={{ flexDirection: 'row' }}>
+              <Ionicons name="star" size={16} style={{ marginTop: 2.5 }} />
+              <Text style={styles.rating}>{item.Rating}</Text>
+            </View>
+            <Text style={styles.price}>Price: ${item.price}</Text>
           </View>
-          <Text style={styles.price}>Price: ${item.price}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </Animated.View>
   );
 
@@ -60,7 +64,7 @@ const Listings = ({ selectedCategory }) => {
             keyExtractor={(item) => item.Host_code}
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 20 , marginHorizontal: 20 , marginTop: 20 }}
+            contentContainerStyle={{ paddingBottom: 20, marginHorizontal: 20, marginTop: 20 }}
           />
         ) : (
           <View style={styles.noListingsContainer}>
