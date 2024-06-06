@@ -1,7 +1,8 @@
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Colors from '@/constants/Colors';
+import { Ionicons} from '@expo/vector-icons';
 
 const Listings = ({ selectedCategory }) => {
   const [listings, setListings] = useState([]);
@@ -30,11 +31,17 @@ const Listings = ({ selectedCategory }) => {
   const renderItem = ({ item }) => (
     <View style={styles.card}>
       <Image source={{ uri: item.image[0].secure_url }} style={styles.image} />
+      <TouchableOpacity style={{ position: 'absolute', right: 15, top: 15 }}>
+        <Ionicons name="heart-outline" size={24} color="#000" />
+      </TouchableOpacity>
       <View style={styles.cardContent}>
         <Text style={styles.title}>{item.nom}</Text>
         <Text style={styles.description}>{item.About}</Text>
         <View style={styles.infoRow}>
-          <Text style={styles.rating}>Rating: {item.Rating}</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Ionicons name="star" size={16} style={{marginTop: 3}}/>
+            <Text style={styles.rating}>{item.Rating}</Text>
+          </View>
           <Text style={styles.price}>Price: ${item.price}</Text>
         </View>
       </View>
@@ -103,8 +110,6 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize: 16,
-    color: Colors.primary,
-    marginBottom: 5,
   },
   price: {
     fontSize: 16,
