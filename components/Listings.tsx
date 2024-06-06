@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Colors from '@/constants/Colors';
 import { Ionicons} from '@expo/vector-icons';
+import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 
 const Listings = ({ selectedCategory }) => {
   const [listings, setListings] = useState([]);
@@ -29,7 +30,7 @@ const Listings = ({ selectedCategory }) => {
     : listings;
 
   const renderItem = ({ item }) => (
-    <View style={styles.card}>
+    <Animated.View style={styles.card} entering={FadeInRight} exiting={FadeOutLeft}>
       <Image source={{ uri: item.image[0].secure_url }} style={styles.image} />
       <TouchableOpacity style={{ position: 'absolute', right: 15, top: 15 }}>
         <Ionicons name="heart-outline" size={24} color="#000" />
@@ -45,7 +46,7 @@ const Listings = ({ selectedCategory }) => {
           <Text style={styles.price}>Price: ${item.price}</Text>
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 
   return (
