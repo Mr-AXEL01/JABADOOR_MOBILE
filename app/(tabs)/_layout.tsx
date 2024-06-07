@@ -2,8 +2,11 @@ import React from 'react'
 import { Tabs } from 'expo-router'
 import Colors from '@/constants/Colors.ts'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
+import { useTranslation } from 'react-i18next'
 
 const Layout = () => {
+  const { t } = useTranslation();
+
   return (
   <Tabs 
     screenOptions={{ 
@@ -16,7 +19,7 @@ const Layout = () => {
     <Tabs.Screen 
       name="index" 
       options={{
-          tabBarLabel: 'Explore',
+          tabBarLabel: t('Explore'),
           tabBarIcon: ({ color , size }) => 
             <Ionicons name="search" color={color} size={size} />
       }} 
@@ -24,7 +27,7 @@ const Layout = () => {
     <Tabs.Screen 
       name="wishlists" 
       options={{
-        tabBarLabel: 'Wishlists',
+        tabBarLabel: t('Wishlists'),
         tabBarIcon: ({ color , size }) => 
           <Ionicons name="heart-outline" color={color} size={size} />
       }} 
@@ -32,7 +35,7 @@ const Layout = () => {
     <Tabs.Screen 
       name="trips" 
       options={{
-        tabBarLabel: 'Trips',
+        tabBarLabel: t('Trips'),
         tabBarIcon: ({ color , size }) => 
           <FontAwesome5 name="airbnb" color={color} size={size} />
       }} 
@@ -40,7 +43,7 @@ const Layout = () => {
     <Tabs.Screen 
       name="profile" 
       options={{
-        tabBarLabel: 'Profile',
+        tabBarLabel: t('Profile'),
         tabBarIcon: ({ color , size }) => 
           <Ionicons name="person-circle-outline" color={color} size={size} />
       }} 
