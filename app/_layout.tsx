@@ -6,6 +6,8 @@ import * as SecureStore from 'expo-secure-store';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 import { TouchableOpacity } from 'react-native';
+import i18n from '../services/i18n.js';
+import LanguageSwitcher from '../components/LanguageSwitcher.js';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -78,6 +80,7 @@ function RootLayoutNav() {
             ),
           }}
         />
+        <LanguageSwitcher />
       </Stack>
   );
 }
