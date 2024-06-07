@@ -14,6 +14,9 @@ i18next.use(initReactI18next).init({
     compatibilityJSON: 'v3',
     lang: 'en',
     fallbackling: 'en',
+    interpolation: {
+        escapeValue: false // to protect our app from XSS 
+    },
     resources: languageResources,
 });
 
