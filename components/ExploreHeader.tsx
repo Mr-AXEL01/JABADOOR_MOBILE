@@ -4,23 +4,26 @@ import { Link } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next'; // Import the useTranslation hook
 
 const ExploreHeader = ({ onSelectCategory }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const { t, i18n } = useTranslation(); // Get the current language
 
   useEffect(() => {
-    axios.get('https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/categories')
+    // Fetch categories based on the selected language
+    axios.get(`https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/categories?lang=${i18n.language}`)
       .then(response => {
-        setCategories([{ category_code: 'all', name: 'All' }, ...response.data]);
+        setCategories([{ category_code: 'all', name: t('All') }, ...response.data]);
         setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching categories:', error);
         setLoading(false);
       });
-  }, []);
+  }, [i18n.language]); // Update when the language changes
 
   const handleCategorySelect = (categoryCode) => {
     setSelectedCategory(categoryCode);
@@ -35,8 +38,8 @@ const ExploreHeader = ({ onSelectCategory }) => {
             <TouchableOpacity style={styles.searchBtn}>
               <Ionicons name="search" size={24} />
               <View>
-                <Text style={{ fontFamily: 'mon-sb' }}>Where to?</Text>
-                <Text style={{ color: Colors.grey, fontFamily: 'mon' }}>Anywhere · Any week</Text>
+                <Text style={{ fontFamily: 'mon-sb' }}>{t('Where to?')}</Text>
+                <Text style={{ color: Colors.grey, fontFamily: 'mon' }}>{t('Anywhere · Any week')}</Text>
               </View>
             </TouchableOpacity>
           </Link>
