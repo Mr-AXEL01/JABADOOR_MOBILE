@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import LanguageSwitcher from '@/components/LanguageSwitcher' 
 
 const Page = () => {
   return (
-    <View>
-      <Text>Profile</Text>
+    <View style={{ flex: 1 }}>
+      <LanguageSwitcher />
     </View>
   );
 };

@@ -1,33 +1,19 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import i18n from './i18n';
+import { View, Button } from 'react-native';
+import i18n from '../services/i18n';
 
 const LanguageSwitcher = () => {
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
+  const switchLanguage = (lang) => {
+    i18n.changeLanguage(lang);
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={() => changeLanguage('en')}>
-        <Text>English</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => changeLanguage('fr')}>
-        <Text>Français</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => changeLanguage('ar')}>
-        <Text>العربية</Text>
-      </TouchableOpacity>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+      <Button title="English" onPress={() => switchLanguage('en')} />
+      <Button title="Français" onPress={() => switchLanguage('fr')} />
+      <Button title="العربية" onPress={() => switchLanguage('ar')} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-  },
-});
 
 export default LanguageSwitcher;

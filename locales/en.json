@@ -1,17 +1,8 @@
 {
-    "explore": "Explore",
-    "wishlists": "Wishlists",
-    "trips": "Trips",
-    "profile": "Profile",
-    "login_or_sign_up": "Log in or sign up",
-    "back": "Back",
-    "hosted_by": "Hosted by",
-    "unknown_amenity": "Unknown Amenity",
-    "amenities": "Amenities",
-    "no_amenities": "No Amenities",
-    "price": "Price",
-    "bedrooms": "Bedrooms",
-    "bathrooms": "Bathrooms",
-    "add_to_cart": "Add to Cart"
+    "Explore": "Explore",
+    "Wishlists": "Wishlists",
+    "Trips": "Trips",
+    "Profile": "Profile",
+    "Log in or sign up": "Log in or sign up"
   }
   

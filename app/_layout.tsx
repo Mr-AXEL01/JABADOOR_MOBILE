@@ -1,25 +1,22 @@
+import React from 'react';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack, useRouter } from 'expo-router';
 import { useEffect } from 'react';
-import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
-import * as SecureStore from 'expo-secure-store';
+import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
-import { TouchableOpacity } from 'react-native';
-import i18n from '../services/i18n.js';
-import LanguageSwitcher from '../components/LanguageSwitcher.js';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import i18n from '../services/i18n';
+import { useTranslation } from 'react-i18next';
 
 export {
-  // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)',
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -47,15 +44,17 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const { t } = useTranslation();
   const router = useRouter();
 
   return (
+    <>
       <Stack>
         <Stack.Screen
           name="(modals)/login"
           options={{
             presentation: 'modal',
-            title: 'Log in or sign up',
+            title: t('Log in or sign up'),
             headerTitleStyle: {
               fontFamily: 'mon-sb',
             },
@@ -66,11 +65,11 @@ function RootLayoutNav() {
             ),
           }}
         />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
-        <Stack.Screen name="listing/[Host_code]" options={{ headerTitle: '' , headerShown: false }} />
-        <Stack.Screen 
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="listing/[Host_code]" options={{ headerTitle: '', headerShown: false }} />
+        <Stack.Screen
           name="(modals)/booking"
-          options={{ 
+          options={{
             presentation: 'transparentModal',
             animation: 'fade',
             headerLeft: () => (
@@ -80,7 +79,7 @@ function RootLayoutNav() {
             ),
           }}
         />
-        <LanguageSwitcher />
       </Stack>
+    </>
   );
 }
