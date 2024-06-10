@@ -5,17 +5,19 @@ import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 import { useNavigation } from 'expo-router';
+import { useTranslation } from 'react-i18next'; // Import the useTranslation hook
 
 const Listings = ({ selectedCategory }) => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+  const { t, i18n } = useTranslation(); // Get the current language
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/hosts');
+        const response = await axios.get(`https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/hosts?lang=${i18n.language}`);
         setListings(response.data);
       } catch (error) {
         console.error('Error fetching listings:', error);
@@ -25,7 +27,7 @@ const Listings = ({ selectedCategory }) => {
     };
 
     fetchData();
-  }, []);
+  }, [i18n.language]); // Update when the language changes
 
   const filteredListings = selectedCategory && selectedCategory !== 'all'
     ? listings.filter(listing => listing.category.category_code === selectedCategory)
@@ -46,7 +48,7 @@ const Listings = ({ selectedCategory }) => {
               <Ionicons name="star" size={16} style={{ marginTop: 2.5 }} />
               <Text style={styles.rating}>{item.Rating}</Text>
             </View>
-            <Text style={styles.price}>Price: ${item.price}</Text>
+            <Text style={styles.price}>{t('Price')}: ${item.price}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -72,7 +74,7 @@ const Listings = ({ selectedCategory }) => {
               source={{ uri: 'https://res.cloudinary.com/dofubyjcd/image/upload/v1717607025/system/meb4jgxbgoenfqj9ur7y.png' }}
               style={styles.noListingsImage}
             />
-            <Text style={styles.noListingsText}>No listings available for this category.</Text>
+            <Text style={styles.noListingsText}>{t('No listings available for this category.')}</Text>
           </View>
         )
       )}
