@@ -4,16 +4,18 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import axios from 'axios';
 import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 const Page = () => {
   const { Host_code } = useLocalSearchParams<{ Host_code: string }>();
   const [host, setHost] = useState<any>(null);
   const router = useRouter();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchHostDetails = async () => {
       try {
-        const response = await axios.get(`https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/hosts/${Host_code}`);
+        const response = await axios.get(`https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/hosts/${Host_code}?lang=${i18n.language}`);
         setHost(response.data);
       } catch (error) {
         console.error('Error fetching host details:', error);
@@ -23,7 +25,7 @@ const Page = () => {
     if (Host_code) {
       fetchHostDetails();
     }
-  }, [Host_code]);
+  }, [Host_code, i18n.language]);
 
   if (!host) {
     return (
@@ -34,8 +36,8 @@ const Page = () => {
   }
 
   const renderAmenity = (amenity: any, index: number) => {
-    const amenityName = amenity?.en.name || "Unknown Amenity";
-    const amenityIcon = amenity?.icon || "defaultAmenityIcon";
+    const amenityName = amenity?.name || t('Unknown Amenity');
+    const amenityIcon = amenity?.icon;
 
     const amenityIconSource = {
       uri: amenityIcon,
@@ -69,27 +71,27 @@ const Page = () => {
           </View>
           <View style={styles.infoItem}>
             <Ionicons name="bed" size={16} color={Colors.primary} />
-            <Text style={styles.infoText}>{host.bedrooms} Bedrooms</Text>
+            <Text style={styles.infoText}>{t('Bedrooms')}: {host.bedrooms}</Text>
           </View>
           <View style={styles.infoItem}>
             <Ionicons name="water" size={16} color={Colors.primary} />
-            <Text style={styles.infoText}>{host.baths} Baths</Text>
+            <Text style={styles.infoText}>{t('Baths')}: {host.baths}</Text>
           </View>
         </View>
         <Text style={styles.price}>${host.price}</Text>
-        <Text style={styles.amenitiesTitle}>Amenities:</Text>
+        <Text style={styles.amenitiesTitle}>{t('Amenities')}:</Text>
         {host.amenities && host.amenities.length > 0 ? (
           host.amenities.map(renderAmenity)
         ) : (
-          <Text style={styles.noAmenities}>No amenities listed</Text>
+          <Text style={styles.noAmenities}>{t('No amenities listed')}</Text>
         )}
         <View style={styles.hostContainer}>
           <Image source={{ uri: host.image[0].secure_url }} style={styles.hostImage} />
-          <Text style={styles.hostName}>Hosted by {host.nom}</Text>
+          <Text style={styles.hostName}>{t('Hosted by')}: {host.nom}</Text>
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.addButtonText}>Add to Cart</Text>
+            <Text style={styles.addButtonText}>{t('Book')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -172,7 +174,7 @@ const styles = StyleSheet.create({
   amenityImage: {
     width: 16,
     height: 16,
-    marginRight: 5, 
+    marginRight: 5,
   },
   amenityText: {
     fontSize: 16,

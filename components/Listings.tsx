@@ -5,7 +5,7 @@ import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 import { useNavigation } from 'expo-router';
-import { useTranslation } from 'react-i18next'; // Import the useTranslation hook
+import { useTranslation } from 'react-i18next';
 
 const Listings = ({ selectedCategory }) => {
   const [listings, setListings] = useState([]);
@@ -74,7 +74,7 @@ const Listings = ({ selectedCategory }) => {
               source={{ uri: 'https://res.cloudinary.com/dofubyjcd/image/upload/v1717607025/system/meb4jgxbgoenfqj9ur7y.png' }}
               style={styles.noListingsImage}
             />
-            <Text style={styles.noListingsText}>{t('No listings available for this category.')}</Text>
+            <Text style={styles.noListingsText}>{t('No listings available for this category')}</Text>
           </View>
         )
       )}
