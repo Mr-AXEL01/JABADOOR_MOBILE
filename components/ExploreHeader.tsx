@@ -11,6 +11,7 @@ const ExploreHeader = ({ onSelectCategory }) => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const { t, i18n } = useTranslation(); // Get the current language
+  const isRTL = i18n.language === 'ar';
 
   useEffect(() => {
     // Fetch categories based on the selected language
@@ -29,11 +30,11 @@ const ExploreHeader = ({ onSelectCategory }) => {
     setSelectedCategory(categoryCode);
     onSelectCategory(categoryCode);
   };
-
+  
   return (
     <SafeAreaView style={{ backgroundColor: '#fff', paddingTop: 35 }}>
       <View style={styles.container}>
-        <View style={styles.actionRow}>
+        <View style={[styles.actionRow, {flexDirection: isRTL ? 'row-reverse' : 'row'} ]}>
           <Link href={'/(modals)/booking'} asChild>
             <TouchableOpacity style={styles.searchBtn}>
               <Ionicons name="search" size={24} />
@@ -90,7 +91,6 @@ const styles = StyleSheet.create({
     height: 180,
   },
   actionRow: {
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 24,
@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 8,
     shadowOffset: { width: 1, height: 1 },
+    
   },
   categoryContainer: {
     justifyContent: 'center',
