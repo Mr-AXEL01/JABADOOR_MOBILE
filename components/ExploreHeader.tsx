@@ -50,7 +50,7 @@ const ExploreHeader = ({ onSelectCategory }) => {
         
         <ScrollView 
           horizontal={true} 
-          style={{ flex: 1 }} 
+           
           contentContainerStyle={{ alignItems: 'center', paddingHorizontal: 10 }} 
           showsHorizontalScrollIndicator={false}
         >
@@ -64,7 +64,7 @@ const ExploreHeader = ({ onSelectCategory }) => {
                   onPress={() => handleCategorySelect(category.category_code)}
                 >
                   {category.category_code === 'all' ? (
-                    <FontAwesome5 name="globe" size={30} style={{padding: 10}} />
+                    <Image source={{ uri: 'https://res.cloudinary.com/dofubyjcd/image/upload/v1718222114/system/v7dckrnijvvtlqgy90qz.png' }} style={styles.categoryIcon} />
                   ) : (
                     <Image source={{ uri: category.image }} style={styles.categoryIcon} />
                   )}
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     backgroundColor: Colors.lightGrey,
-    borderRadius: 20,
+    
   },
   selectedCategoryBtn: {
     backgroundColor: Colors.lightGrey,
@@ -136,16 +136,15 @@ const styles = StyleSheet.create({
     height: 2,
     backgroundColor: 'black',
     width: '100%',
-    marginTop: 5,
+    marginTop: 3,
   },
   categoryIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 25,
+    height: 25,
     marginBottom: 5,
   },
   categoryText: {
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: 'mon-sb',
     color: Colors.grey,
     textAlign: 'center',
