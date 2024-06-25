@@ -1,11 +1,39 @@
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image, TouchableOpacity, Share } from 'react-native';
+import * as FileSystem from 'expo-file-system';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Colors from '@/constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 import { useNavigation } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+
+
+const shareListing = async (item) => {
+  if (!item || !item.Host_code) {
+    console.error('Host data or Host code is not available.');
+    alert('Host data or Host code is not available.');
+    return;
+  }
+
+  try {
+    const imageUrl = item.image[0].secure_url;
+    const imageUri = `${FileSystem.cacheDirectory}${item.Host_code}.jpg`;
+
+    await FileSystem.downloadAsync(imageUrl, imageUri);
+
+    await Share.share({
+      title: `Check out this wonderful Host: ${item.nom}`,
+      message: `Check out this wonderful Host: ${item.nom}\n\nLink: https://main.d11i2xf9qyhgyw.amplifyapp.com/host/${item.Host_code}`,
+      url: imageUri,
+    });
+
+    console.log('Shared successfully');
+  } catch (error) {
+    console.error('Error sharing listing:', error.message);
+    alert(`Error sharing: ${error.message}`);
+  }
+};
 
 const Listings = ({ selectedCategory }) => {
   const [listings, setListings] = useState([]);
@@ -37,8 +65,8 @@ const Listings = ({ selectedCategory }) => {
     <Animated.View style={styles.card} entering={FadeInRight} exiting={FadeOutLeft}>
       <TouchableOpacity onPress={() => navigation.navigate('listing/[Host_code]', { Host_code: item.Host_code })}>
         <Image source={{ uri: item.image[0].secure_url }} style={styles.image} />
-        <TouchableOpacity style={{ position: 'absolute', right: 15, top: 15 }}>
-          <Ionicons name="heart-outline" size={24} color="#000" />
+        <TouchableOpacity style={styles.roundButton} onPress={() => shareListing(item)}>
+          <AntDesign name="sharealt" size={22} color={'#000'} />
         </TouchableOpacity>
         <View style={styles.cardContent}>
           <Text style={styles.title}>{item.nom}</Text>
@@ -97,6 +125,19 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 200,
+  },
+  roundButton:{
+    position: 'absolute', 
+    right: 15, 
+    top: 15,
+    borderRadius: 50,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: Colors.primary,
+    padding: 8,
+    elevation: 2,
+    borderRadius: 18,
   },
   cardContent: {
     padding: 15,

@@ -1,9 +1,11 @@
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Share } from 'react-native';
+import * as FileSystem from 'expo-file-system';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import axios from 'axios';
 import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import { SvgXml } from 'react-native-svg'; // Import SvgXml for SVG rendering
 import { useTranslation } from 'react-i18next';
 
 const Page = () => {
@@ -37,19 +39,44 @@ const Page = () => {
 
   const renderAmenity = (amenity: any, index: number) => {
     const amenityName = amenity?.name || t('Unknown Amenity');
-    const amenityIcon = amenity?.icon;
+    const amenityIcon = amenity?.svg;
 
-    const amenityIconSource = {
-      uri: amenityIcon,
-    };
+    // Modify the SVG string to remove 'fill: currentcolor;'
+    const svgXmlData = amenityIcon.replace('fill: currentcolor;', '');
 
     return (
       <View key={index} style={styles.amenity}>
-        <Image source={amenityIconSource} style={styles.amenityImage} />
+        <SvgXml xml={svgXmlData} width={24} height={24} />
         <Text style={styles.amenityText}>{amenityName}</Text>
       </View>
     );
   };
+
+const shareListing = async () => {
+  if (!host || !host.Host_code) {
+    console.error('Host data or Host code is not available.');
+    alert('Host data or Host code is not available.');
+    return;
+  }
+
+  try {
+    const imageUrl = host.image[0].secure_url;
+    const imageUri = `${FileSystem.cacheDirectory}${host.Host_code}.jpg`;
+
+    await FileSystem.downloadAsync(imageUrl, imageUri);
+
+    await Share.share({
+      message: `Check out this wonderful Host: ${host.nom}\n\nLink: https://main.d11i2xf9qyhgyw.amplifyapp.com/host/${host.Host_code}`,
+      url: imageUri,
+    });
+
+    console.log('Shared successfully');
+  } catch (error) {
+    console.error('Error sharing listing:', error.message);
+    alert(`Error sharing: ${error.message}`);
+  }
+};
+
 
   return (
     <ScrollView style={styles.container}>
@@ -57,9 +84,14 @@ const Page = () => {
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <Ionicons name="arrow-back" size={24} color="#000" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.favoriteButton}>
-        <Ionicons name="heart-outline" size={24} color="#000" />
-      </TouchableOpacity>
+      <View style={styles.roundButtons}>
+        <TouchableOpacity style={styles.roundButton} onPress={shareListing} >
+          <Ionicons name="share-outline" size={22} color={'#000'} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.roundButton}>
+          <Ionicons name="heart-outline" size={22} color={'#000'} />
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.contentContainer}>
         <Text style={styles.title}>{host.nom}</Text>
@@ -78,7 +110,6 @@ const Page = () => {
             <Text style={styles.infoText}>{t('Baths')}: {host.baths}</Text>
           </View>
         </View>
-        <Text style={styles.price}>${host.price}</Text>
         <Text style={styles.amenitiesTitle}>{t('Amenities')}:</Text>
         {host.amenities && host.amenities.length > 0 ? (
           host.amenities.map(renderAmenity)
@@ -90,6 +121,10 @@ const Page = () => {
           <Text style={styles.hostName}>{t('Hosted by')}: {host.nom}</Text>
         </View>
         <View style={styles.buttonContainer}>
+          <View style={{flexDirection:'row'}}>
+            <Text style={styles.price}>${host.price}</Text>
+            <Text style={{margin:4,}}>night</Text>
+          </View>
           <TouchableOpacity style={styles.addButton}>
             <Text style={styles.addButtonText}>{t('Book')}</Text>
           </TouchableOpacity>
@@ -116,17 +151,27 @@ const styles = StyleSheet.create({
     left: 20,
     backgroundColor: '#fff',
     borderRadius: 20,
-    padding: 10,
+    padding: 8,
     elevation: 2,
   },
-  favoriteButton: {
+  roundButtons: {
+    width: 80,
     position: 'absolute',
     top: 40,
     right: 20,
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  roundButton: {
+    borderRadius: 50,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: Colors.primary,
+    padding: 8,
     elevation: 2,
+    borderRadius: 18,
   },
   contentContainer: {
     padding: 20,
@@ -156,7 +201,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   price: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
   },
@@ -170,11 +215,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 5,
-  },
-  amenityImage: {
-    width: 16,
-    height: 16,
-    marginRight: 5,
   },
   amenityText: {
     fontSize: 16,
@@ -202,6 +242,8 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   addButton: {
