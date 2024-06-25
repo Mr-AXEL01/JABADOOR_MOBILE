@@ -7,6 +7,7 @@ import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { SvgXml } from 'react-native-svg'; // Import SvgXml for SVG rendering
 import { useTranslation } from 'react-i18next';
+import Carousel from 'pinar';
 
 const Page = () => {
   const { Host_code } = useLocalSearchParams<{ Host_code: string }>();
@@ -80,7 +81,14 @@ const shareListing = async () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Image source={{ uri: host.image[0].secure_url }} style={styles.mainImage} />
+      {/* <Image source={{ uri: host.image[0].secure_url }} style={styles.mainImage} /> */}
+      <Carousel style={styles.carousel} 
+        showsControls={false} 
+        dotStyle={styles.dotStyle}
+        activeDotStyle={[styles.dotStyle, {backgroundColor: 'white'}]}
+      >
+        {host.image.map(img=><Image style={styles.images} source={{uri: img.secure_url}} key={host.Host_code} />)}
+      </Carousel>
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <Ionicons name="arrow-back" size={24} color="#000" />
       </TouchableOpacity>
@@ -139,9 +147,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  mainImage: {
+  carousel: {
     width: '100%',
-    height: 400,
+    height: 450,
+  },
+  dotStyle: {
+    width: 7,
+    height: 7,
+    backgroundColor: 'silver',
+    marginHorizontal: 3,
+    borderRadius: 8,
+  },
+  images: {
+    width: '100%',
+    height: '100%',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },

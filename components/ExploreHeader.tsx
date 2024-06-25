@@ -50,8 +50,7 @@ const ExploreHeader = ({ onSelectCategory }) => {
         </View>
         
         <ScrollView 
-          horizontal={true} 
-           
+          horizontal={true}
           contentContainerStyle={{ alignItems: 'center', paddingHorizontal: 10 }} 
           showsHorizontalScrollIndicator={false}
         >
@@ -88,7 +87,7 @@ const ExploreHeader = ({ onSelectCategory }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    height: 180,
+    height: 140,
   },
   actionRow: {
     alignItems: 'center',

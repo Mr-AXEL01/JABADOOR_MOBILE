@@ -13,6 +13,7 @@ const Layout = () => {
         tabBarActiveTintColor: Colors.primary,
         tabBarLabelStyle: {
           fontFamily: 'mon-sb',
+          paddingBottom: 6,
         },
       }}
     >
