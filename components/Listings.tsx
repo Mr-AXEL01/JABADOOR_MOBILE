@@ -64,13 +64,25 @@ const Listings = ({ selectedCategory }) => {
 
   const renderItem = ({ item }) => (
     <Animated.View style={styles.card} entering={FadeInRight} exiting={FadeOutLeft}>
-      <Carousel style={styles.carousel} 
-        showsControls={false} 
-        dotStyle={styles.dotStyle}
-        activeDotStyle={[styles.dotStyle, {backgroundColor: 'white'}]}
-      >
-          {item.image.map(img=><Image style={styles.image} source={{uri: img.secure_url}} key={item.Host_code} />)}
-      </Carousel>
+      <Carousel
+      style={styles.carousel}
+      showsControls={false}
+      dotStyle={styles.dotStyle}
+      activeDotStyle={[styles.dotStyle, { backgroundColor: 'white' }]}
+    >
+      {item.image.map(img => (
+        <TouchableOpacity
+          key={item.Host_code}
+          onPress={() => navigation.navigate('listing/[Host_code]', { Host_code: item.Host_code })}
+          style={{ flex: 1 }}
+        >
+          <Image
+            style={styles.image}
+            source={{ uri: img.secure_url }}
+          />
+        </TouchableOpacity>
+      ))}
+    </Carousel>
       <TouchableOpacity style={styles.roundButton} onPress={() => shareListing(item)}>
         <AntDesign name="sharealt" size={16} color={'#000'} />
       </TouchableOpacity>
