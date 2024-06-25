@@ -7,6 +7,7 @@ import { Ionicons, AntDesign } from '@expo/vector-icons';
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 import { useNavigation } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import Carousel from 'pinar';
 
 
 const shareListing = async (item) => {
@@ -63,11 +64,17 @@ const Listings = ({ selectedCategory }) => {
 
   const renderItem = ({ item }) => (
     <Animated.View style={styles.card} entering={FadeInRight} exiting={FadeOutLeft}>
+      <Carousel style={styles.carousel} 
+        showsControls={false} 
+        dotStyle={styles.dotStyle}
+        activeDotStyle={[styles.dotStyle, {backgroundColor: 'white'}]}
+      >
+          {item.image.map(img=><Image style={styles.image} source={{uri: img.secure_url}} key={item.Host_code} />)}
+      </Carousel>
+      <TouchableOpacity style={styles.roundButton} onPress={() => shareListing(item)}>
+        <AntDesign name="sharealt" size={16} color={'#000'} />
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('listing/[Host_code]', { Host_code: item.Host_code })}>
-        <Image source={{ uri: item.image[0].secure_url }} style={styles.image} />
-        <TouchableOpacity style={styles.roundButton} onPress={() => shareListing(item)}>
-          <AntDesign name="sharealt" size={16} color={'#000'} />
-        </TouchableOpacity>
         <View style={styles.cardContent}>
           <Text style={styles.title}>{item.nom}</Text>
           <Text style={styles.description}>{item.About}</Text>
@@ -122,9 +129,20 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 5 },
   },
+  carousel: {
+    width: '100%',
+    height: 250,
+  },
+  dotStyle: {
+    width: 7,
+    height: 7,
+    backgroundColor: 'silver',
+    marginHorizontal: 3,
+    borderRadius: 8,
+  },
   image: {
     width: '100%',
-    height: 200,
+    height: '100%',
   },
   roundButton:{
     position: 'absolute', 
