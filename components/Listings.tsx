@@ -66,7 +66,7 @@ const Listings = ({ selectedCategory }) => {
       <TouchableOpacity onPress={() => navigation.navigate('listing/[Host_code]', { Host_code: item.Host_code })}>
         <Image source={{ uri: item.image[0].secure_url }} style={styles.image} />
         <TouchableOpacity style={styles.roundButton} onPress={() => shareListing(item)}>
-          <AntDesign name="sharealt" size={22} color={'#000'} />
+          <AntDesign name="sharealt" size={16} color={'#000'} />
         </TouchableOpacity>
         <View style={styles.cardContent}>
           <Text style={styles.title}>{item.nom}</Text>
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
   },
   roundButton:{
     position: 'absolute', 
-    right: 15, 
-    top: 15,
+    right: 6, 
+    top: 8,
     borderRadius: 50,
     backgroundColor: 'white',
     alignItems: 'center',
