@@ -144,6 +144,20 @@ const Page = () => {
             <Text style={styles.hostName}>Abd_elhaq</Text>
           </View>
         </View>
+        <Text style={styles.hostCardTitle}>{t('See our clients opinions :')}</Text>
+        <View style={styles.reviewsContainer}>
+          <View style={styles.reviewContainer}>
+            <View style={styles.reviewProfileContainer}>
+              <Image source={{ uri: host.image[3].secure_url }} style={styles.reviewerImage} />
+              <Text style={styles.reviewerName}>Omar</Text>
+            </View>
+            <View>
+              <Text>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus ullam alias praesentium magnam mollitia eum aut temporibus ipsam! Illo, mollitia!
+              </Text>
+            </View>
+          </View>
+        </View>
         <View style={styles.buttonContainer}>
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.price}>${host.price}</Text>
@@ -319,6 +333,26 @@ const styles = StyleSheet.create({
   hostName: {
     fontSize: 20,
     color: '#333',
+  },
+  reviewsContainer: {
+    padding: 8,
+    borderBottomWidth: 0.5,
+    marginBottom: 20,
+  },
+  reviewProfileContainer:{
+    flexDirection: 'row',
+    borderWidth: 0.5,
+    margin: 25,
+    padding: 15,
+    width: '85%',
+    height: 175,
+    borderRadius: 16,
+    backgroundColor: '#6784',
+  },
+  reviewerImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 30,
   },
   buttonContainer: {
     flexDirection: 'row',

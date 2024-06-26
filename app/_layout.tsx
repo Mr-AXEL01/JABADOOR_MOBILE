@@ -50,7 +50,7 @@ function RootLayoutNav() {
   return (
     <>
       <Stack>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="(modals)/login"
           options={{
             presentation: 'modal',
@@ -64,7 +64,7 @@ function RootLayoutNav() {
               </TouchableOpacity>
             ),
           }}
-        />
+        /> */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="listing/[Host_code]" options={{ headerTitle: '', headerShown: false }} />
         <Stack.Screen
