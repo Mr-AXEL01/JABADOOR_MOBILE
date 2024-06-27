@@ -223,9 +223,9 @@ const Page = () => {
         </View>
         <TouchableOpacity style={styles.addButton}>
           <Text style={styles.addButtonText}>{t('Book')}</Text>
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
       </View>
+    </View>
     </ScrollView>
   );
 };
@@ -281,7 +281,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   contentContainer: {
-    // padding: 20,
     paddingTop: 5,
   },
   title: {
