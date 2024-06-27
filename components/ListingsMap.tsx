@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useNavigation } from 'expo-router'
 import * as Location from 'expo-location';
 import axios from 'axios';
+import MapView from 'react-native-map-clustering'; 
 
 const ListingsMap = ({ selectedCategory }) => {
   const [region, setRegion] = useState(null);
