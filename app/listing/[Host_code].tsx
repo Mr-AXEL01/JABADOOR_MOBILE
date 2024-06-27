@@ -101,7 +101,7 @@ const Page = () => {
 
       <View style={styles.contentContainer}>
         <Text style={styles.title}>{host.nom}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 , marginLeft: 20 }}>
           <Ionicons name="location-outline" size={20} color={'#000'} />
           <Text style={styles.address}>{host.address.address},{host.address.city},{host.address.country}</Text>
         </View>
@@ -123,7 +123,7 @@ const Page = () => {
             <Text style={styles.infoText}> {host.baths}</Text>
           </View>
         </View>
-        <View style={{ margin: 25, marginLeft: 0 }}>
+        <View style={{ margin: 25, marginLeft: 20 }}>
           <Text style={styles.amenitiesTitle}>{t('Amenities')} :</Text>
           <Text style={styles.amenitiesDescreption}>{t('About the property\'s amenities and services')}</Text>
         </View>
@@ -144,27 +144,85 @@ const Page = () => {
             <Text style={styles.hostName}>Abd_elhaq</Text>
           </View>
         </View>
-        <Text style={styles.hostCardTitle}>{t('See our clients opinions :')}</Text>
+      <Text style={[styles.hostCardTitle,{marginLeft: 20 ,}]}>
+        {t('See our clients opinions :')}
+      </Text>
+      <ScrollView 
+        horizontal={true}
+        contentContainerStyle={{ alignItems: 'center', }} 
+        showsHorizontalScrollIndicator={false}
+      >
         <View style={styles.reviewsContainer}>
+          {/* list of reviews */}
           <View style={styles.reviewContainer}>
             <View style={styles.reviewProfileContainer}>
               <Image source={{ uri: host.image[3].secure_url }} style={styles.reviewerImage} />
               <Text style={styles.reviewerName}>Omar</Text>
             </View>
-            <View>
-              <Text>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus ullam alias praesentium magnam mollitia eum aut temporibus ipsam! Illo, mollitia!
-              </Text>
+            <Text style={styles.reviewMessage}>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus ullam alias 
+                praesentium magnam mollitia eum aut temporibus ipsam! Illo, mollitia!
+            </Text>
+          </View>
+          <View style={styles.reviewContainer}>
+            <View style={styles.reviewProfileContainer}>
+              <Image source={{ uri: host.image[3].secure_url }} style={styles.reviewerImage} />
+              <Text style={styles.reviewerName}>Omar</Text>
             </View>
+            <Text style={styles.reviewMessage}>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus ullam alias 
+                praesentium magnam mollitia eum aut temporibus ipsam! Illo, mollitia!
+            </Text>
+          </View>
+          <View style={styles.reviewContainer}>
+            <View style={styles.reviewProfileContainer}>
+              <Image source={{ uri: host.image[3].secure_url }} style={styles.reviewerImage} />
+              <Text style={styles.reviewerName}>Omar</Text>
+            </View>
+            <Text style={styles.reviewMessage}>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus ullam alias 
+                praesentium magnam mollitia eum aut temporibus ipsam! Illo, mollitia!
+            </Text>
+          </View>
+          <View style={styles.reviewContainer}>
+            <View style={styles.reviewProfileContainer}>
+              <Image source={{ uri: host.image[3].secure_url }} style={styles.reviewerImage} />
+              <Text style={styles.reviewerName}>Omar</Text>
+            </View>
+            <Text style={styles.reviewMessage}>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus ullam alias 
+                praesentium magnam mollitia eum aut temporibus ipsam! Illo, mollitia!
+            </Text>
+          </View>
+          <View style={styles.reviewContainer}>
+            <View style={styles.reviewProfileContainer}>
+              <Image source={{ uri: host.image[3].secure_url }} style={styles.reviewerImage} />
+              <Text style={styles.reviewerName}>Omar</Text>
+            </View>
+            <Text style={styles.reviewMessage}>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus ullam alias 
+                praesentium magnam mollitia eum aut temporibus ipsam! Illo, mollitia!
+            </Text>
+          </View>
+          <View style={styles.reviewContainer}>
+            <View style={styles.reviewProfileContainer}>
+              <Image source={{ uri: host.image[3].secure_url }} style={styles.reviewerImage} />
+              <Text style={styles.reviewerName}>Omar</Text>
+            </View>
+            <Text style={styles.reviewMessage}>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus ullam alias 
+                praesentium magnam mollitia eum aut temporibus ipsam! Illo, mollitia!
+            </Text>
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.price}>${host.price}</Text>
-            <Text style={{ margin: 4, }}>night</Text>
-          </View>
-          <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.addButtonText}>{t('Book')}</Text>
+      </ScrollView>
+      <View style={styles.buttonContainer}>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.price}>${host.price}</Text>
+          <Text style={{ margin: 4, }}>night</Text>
+        </View>
+        <TouchableOpacity style={styles.addButton}>
+          <Text style={styles.addButtonText}>{t('Book')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -223,7 +281,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   contentContainer: {
-    padding: 20,
+    // padding: 20,
     paddingTop: 5,
   },
   title: {
@@ -231,6 +289,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     marginVertical: 10,
     marginBottom: 15,
+    marginLeft: 20,
   },
   address: {
     fontSize: 18,
@@ -245,6 +304,8 @@ const styles = StyleSheet.create({
     borderColor: 'silver',
     borderBottomWidth: 1,
     borderTopWidth: 1,
+    marginLeft: 20,
+    marginRight: 20,
   },
   infoItem: {
     flexDirection: 'row',
@@ -272,6 +333,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 10,
     paddingBottom: 15,
+    marginLeft: 20,
   },
   amenity: {
     width: '30%',
@@ -297,7 +359,8 @@ const styles = StyleSheet.create({
     borderColor: 'silver',
     borderBottomWidth: 1,
     borderTopWidth: 1,
-    marginBottom: 20,
+    margin: 20,
+    marginTop: 0,
   },
   about: {
     fontSize: 14,
@@ -306,7 +369,8 @@ const styles = StyleSheet.create({
   hostContainer: {
     padding: 8,
     borderBottomWidth: 0.5,
-    marginBottom: 20,
+    margin: 20,
+    marginTop: 0,
   },
   hostCardTitle: {
     fontSize: 20,
@@ -315,58 +379,81 @@ const styles = StyleSheet.create({
   hostCardContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 0.5,
+    borderWidth: 0.4,
     margin: 25,
-    marginLeft: 45,
+    marginLeft: 40,
     padding: 15,
     width: '75%',
     height: 170,
     borderRadius: 16,
     elevation: 8,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
   },
   hostImage: {
     width: 90,
     height: 90,
+    borderWidth: 2.5,
+    borderColor: '#6495ed',
     borderRadius: 50,
   },
   hostName: {
     fontSize: 20,
+    fontWeight: '800',
     color: '#333',
   },
   reviewsContainer: {
-    padding: 8,
-    borderBottomWidth: 0.5,
-    marginBottom: 20,
-  },
-  reviewProfileContainer:{
     flexDirection: 'row',
+    padding: 8,
+  },
+  reviewContainer:{
     borderWidth: 0.5,
-    margin: 25,
+    margin: 15,
+    marginBottom: 25,
     padding: 15,
-    width: '85%',
+    width: 300,
     height: 175,
     borderRadius: 16,
-    backgroundColor: '#6784',
+    backgroundColor: '#f3f3f3',
+  },
+  reviewProfileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   reviewerImage: {
     width: 50,
     height: 50,
+    borderWidth: 2,
+    borderColor: '#6495ed',
     borderRadius: 30,
+  },
+  reviewerName: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+  },
+  reviewMessage: {
+    marginTop: 10,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderTopWidth: 0.5,
+    margin: 20,
+    marginTop: 0,
+    paddingTop: 30,
   },
   addButton: {
     backgroundColor: Colors.primary,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 90,
+    padding: 10,
+    borderRadius: 12,
   },
   addButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#fff',
     fontWeight: 'bold',
   },
