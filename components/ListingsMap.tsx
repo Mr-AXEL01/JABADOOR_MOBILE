@@ -44,6 +44,29 @@ const ListingsMap = ({ selectedCategory }) => {
     fetchListings();
   }, []);
 
+  const renderCluster = (cluster) => {
+    const { id, geometry, properties } = cluster;
+    const { coordinates } = geometry;
+    const { point_count } = properties;
+
+    return (
+      <Marker
+        key={`cluster-${id}`}
+        coordinate={{
+          latitude: coordinates[1],
+          longitude: coordinates[0],
+        }}
+        onPress={cluster.onPress}
+      >
+        <View style={styles.marker}>
+          <Text style={{textAlign: 'center', fontFamily: 'mon-sb',}}>
+            {point_count}
+          </Text>
+        </View>
+      </Marker>
+    );
+  };
+
   const filteredListings = selectedCategory && selectedCategory !== 'all'
     ? listings.filter(listing => listing.category.category_code === selectedCategory)
     : listings;
@@ -52,11 +75,16 @@ const ListingsMap = ({ selectedCategory }) => {
     <View style={styles.container}>
       {region && (
         <MapView
+          animationEnabled={false}
           style={StyleSheet.absoluteFill}
           provider={PROVIDER_GOOGLE}
           showsUserLocation={true}
           showsMyLocationButton={true}
           initialRegion={region}
+          clusterColor="#fff"
+          clusterTextColor="#000"
+          clusterFontFamily='mon-sb'
+          renderCluster={renderCluster}
         >
           {filteredListings.map(listing => (
             <Marker
