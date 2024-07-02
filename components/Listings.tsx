@@ -114,6 +114,7 @@ const Listings = ({ selectedCategory }) => {
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 20, marginHorizontal: 20, marginTop: 20 }}
+            ListHeaderComponent={<Text>{filteredListings.length} homes</Text>}
           />
         ) : (
           <View style={styles.noListingsContainer}>
