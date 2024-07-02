@@ -1,22 +1,38 @@
-// index.tsx
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { Stack } from 'expo-router';
 import ExploreHeader from '@/components/ExploreHeader';
-import Listings from '@/components/Listings';
 import ListingsMap from '@/components/ListingsMap';
 import ListingsBottomSheet from '@/components/ListingsBottomSheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Page = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   return (
-    <View style={{ flex: 1 }}>
-      <Stack.Screen options={{ header: () => <ExploreHeader onSelectCategory={setSelectedCategory} selectedCategory={selectedCategory} /> }} />
-      <ListingsMap selectedCategory={selectedCategory} />
-      <ListingsBottomSheet selectedCategory={selectedCategory} />
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Stack.Screen
+        options={{
+          header: () => (
+            <ExploreHeader
+              onSelectCategory={setSelectedCategory}
+              selectedCategory={selectedCategory}
+            />
+          ),
+        }}
+      />
+      <View style={styles.container}>
+        <ListingsMap selectedCategory={selectedCategory} />
+        <ListingsBottomSheet selectedCategory={selectedCategory} />
+      </View>
+    </GestureHandlerRootView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default Page;

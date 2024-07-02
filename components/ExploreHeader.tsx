@@ -4,17 +4,16 @@ import { Link } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
-import { useTranslation } from 'react-i18next'; // Import the useTranslation hook
+import { useTranslation } from 'react-i18next';
 
 const ExploreHeader = ({ onSelectCategory }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const { t, i18n } = useTranslation(); // Get the current language
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   useEffect(() => {
-    // Fetch categories based on the selected language
     axios.get(`https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/categories?lang=${i18n.language}`)
       .then(response => {
         setCategories([{ category_code: 'all', name: t('All') }, ...response.data]);
@@ -24,7 +23,7 @@ const ExploreHeader = ({ onSelectCategory }) => {
         console.error('Error fetching categories:', error);
         setLoading(false);
       });
-  }, [i18n.language]); // Update when the language changes
+  }, [i18n.language]);
 
   const handleCategorySelect = (categoryCode) => {
     setSelectedCategory(categoryCode);
