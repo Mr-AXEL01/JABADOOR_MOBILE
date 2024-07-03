@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useNavigation } from 'expo-router';
@@ -6,11 +6,13 @@ import * as Location from 'expo-location';
 import axios from 'axios';
 import MapView from 'react-native-map-clustering';
 
-const ListingsMap = ({ selectedCategory }) => {
+// Using React.memo to optimize component rendering
+const ListingsMap = React.memo(({ selectedCategory }) => {
   const [region, setRegion] = useState(null);
   const [listings, setListings] = useState([]);
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
+  const fetchedListings = useRef(false); // Prevent refetching listings
 
   useEffect(() => {
     const requestLocationPermissions = async () => {
@@ -35,9 +37,11 @@ const ListingsMap = ({ selectedCategory }) => {
     };
 
     const fetchListings = async () => {
+      if (fetchedListings.current) return; // Do not fetch again if already fetched
       try {
         const response = await axios.get('https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/hosts');
         setListings(response.data);
+        fetchedListings.current = true;
       } catch (error) {
         Alert.alert('Error fetching listings:', error.message);
       } finally {
@@ -48,6 +52,13 @@ const ListingsMap = ({ selectedCategory }) => {
     requestLocationPermissions();
     fetchListings();
   }, []);
+
+  // Use useMemo to memoize filteredListings
+  const filteredListings = useMemo(() => {
+    return selectedCategory && selectedCategory !== 'all'
+      ? listings.filter(listing => listing.category.category_code === selectedCategory)
+      : listings;
+  }, [listings, selectedCategory]);
 
   const renderCluster = (cluster) => {
     const { id, geometry, properties } = cluster;
@@ -64,17 +75,13 @@ const ListingsMap = ({ selectedCategory }) => {
         onPress={cluster.onPress}
       >
         <View style={styles.marker}>
-          <Text style={{textAlign: 'center', fontFamily: 'mon-sb'}}>
+          <Text style={{ textAlign: 'center', fontFamily: 'mon-sb' }}>
             {point_count}
           </Text>
         </View>
       </Marker>
     );
   };
-
-  const filteredListings = selectedCategory && selectedCategory !== 'all'
-    ? listings.filter(listing => listing.category.category_code === selectedCategory)
-    : listings;
 
   return (
     <View style={styles.container}>
@@ -111,7 +118,7 @@ const ListingsMap = ({ selectedCategory }) => {
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -134,7 +141,7 @@ const styles = StyleSheet.create({
   },
   markerText: {
     fontSize: 14,
-    fontFamily: 'mon-sb'
+    fontFamily: 'mon-sb',
   },
 });
 
