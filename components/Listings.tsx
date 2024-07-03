@@ -8,6 +8,7 @@ import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 import { useNavigation } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import Carousel from 'pinar';
+import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 
 
 const shareListing = async (item) => {
@@ -108,13 +109,15 @@ const Listings = ({ selectedCategory }) => {
         <ActivityIndicator size="large" color={Colors.primary} />
       ) : (
         filteredListings.length > 0 ? (
-          <FlatList
+          <BottomSheetFlatList 
             data={filteredListings}
             keyExtractor={(item) => item.Host_code}
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 20, marginHorizontal: 20, marginTop: 20 }}
-            ListHeaderComponent={<Text>{filteredListings.length} homes</Text>}
+            ListHeaderComponent={filteredListings.length > 0 ? (
+              <Text style={styles.hostsSum}>{filteredListings.length} homes</Text>
+            ) : null}
           />
         ) : (
           <View style={styles.noListingsContainer}>
@@ -212,6 +215,11 @@ const styles = StyleSheet.create({
     color: Colors.grey,
     textAlign: 'center',
   },
+  hostsSum: {
+    textAlign: 'center',
+    fontFamily: 'mon-b',
+    fontSize: 14,
+  }
 });
 
 export default Listings;

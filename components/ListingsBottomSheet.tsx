@@ -8,7 +8,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const ListingsBottomSheet = ({ selectedCategory }: Props) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['10%', '100%'], []);
+  const snapPoints = useMemo(() => ['6%', '100%'], []);
 
   const onShowMap = () => {
     bottomSheetRef.current?.collapse();
@@ -23,9 +23,10 @@ const ListingsBottomSheet = ({ selectedCategory }: Props) => {
         handleIndicatorStyle={{ backgroundColor: Colors.grey }}
         style={styles.sheetContainer}
       >
-        <BottomSheetScrollView Style={styles.contentContainer}>
+        <Listings selectedCategory={selectedCategory} />
+        {/* <BottomSheetScrollView Style={styles.contentContainer}>
           <Listings selectedCategory={selectedCategory} />
-        </BottomSheetScrollView>
+        </BottomSheetScrollView> */}
         <View style={styles.absoluteBtn}>
           <TouchableOpacity onPress={onShowMap} style={styles.btn}>
             <Text style={{ fontFamily: 'mon-sb', color: '#fff' }}>Map</Text>
@@ -39,7 +40,8 @@ const ListingsBottomSheet = ({ selectedCategory }: Props) => {
 const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
-    paddingBottom: 60, 
+    backgroundColor: 'red',
+    paddingBottom: 10, 
   },
   absoluteBtn: {
     position: 'absolute',
@@ -58,7 +60,6 @@ const styles = StyleSheet.create({
   },
   sheetContainer: {
     backgroundColor: '#fff',
-    borderRadius: 10,
     elevation: 4,
     shadowColor: '#000',
     shadowOpacity: 0.3,
