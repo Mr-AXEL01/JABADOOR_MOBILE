@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { useNavigation } from 'expo-router'
+import { useNavigation } from 'expo-router';
 import * as Location from 'expo-location';
 import axios from 'axios';
-import MapView from 'react-native-map-clustering'; 
+import MapView from 'react-native-map-clustering';
 
 const ListingsMap = ({ selectedCategory }) => {
   const [region, setRegion] = useState(null);
@@ -13,34 +13,39 @@ const ListingsMap = ({ selectedCategory }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Permission to access location was denied');
-        return;
+    const requestLocationPermissions = async () => {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('Permission to access location was denied');
+          setLoading(false); // Stop loading to prevent infinite loop
+          return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setRegion({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        });
+      } catch (error) {
+        Alert.alert('Error accessing location:', error.message);
       }
+    };
 
-      let location = await Location.getCurrentPositionAsync({});
-      setRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-    })();
-
-    // Fetch listings
     const fetchListings = async () => {
       try {
         const response = await axios.get('https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/hosts');
         setListings(response.data);
       } catch (error) {
-        console.error('Error fetching listings:', error);
+        Alert.alert('Error fetching listings:', error.message);
       } finally {
         setLoading(false);
       }
     };
 
+    requestLocationPermissions();
     fetchListings();
   }, []);
 
@@ -59,7 +64,7 @@ const ListingsMap = ({ selectedCategory }) => {
         onPress={cluster.onPress}
       >
         <View style={styles.marker}>
-          <Text style={{textAlign: 'center', fontFamily: 'mon-sb',}}>
+          <Text style={{textAlign: 'center', fontFamily: 'mon-sb'}}>
             {point_count}
           </Text>
         </View>
@@ -95,11 +100,11 @@ const ListingsMap = ({ selectedCategory }) => {
                 longitude: parseFloat(listing.longitude),
               }}
             >
-                <View style={styles.marker}>
-                    <Text style={styles.markerText}>
-                        ${listing.price}
-                    </Text>
-                </View>
+              <View style={styles.marker}>
+                <Text style={styles.markerText}>
+                  ${listing.price}
+                </Text>
+              </View>
             </Marker>
           ))}
         </MapView>
@@ -123,8 +128,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 6,
     shadowOffset: {
-        width: 1,
-        geight: 10,
+      width: 1,
+      height: 10,
     },
   },
   markerText: {
