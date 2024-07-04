@@ -43,7 +43,7 @@ const Page = () => {
     const amenityIcon = amenity?.svg;
 
     // Modify the SVG string to remove 'fill: currentcolor;'
-    const svgXmlData = amenityIcon.replace('fill: currentcolor;', '');
+    const svgXmlData = amenityIcon?.replace('fill: currentcolor;', '');
 
     return (
       <View key={amenity.amenity_code} style={styles.amenity}>
