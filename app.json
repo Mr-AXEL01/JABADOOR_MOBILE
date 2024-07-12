@@ -48,6 +48,11 @@
       "eas": {
         "projectId": "61273bcc-ead2-470e-9ad8-8d3237f415d8"
       }
+    },
+    "config": {
+      "googleMaps": {
+        "apiKey": "AIzaSyCjcH8ScF1kcmTEstW0BMUV4pSqRcADljE" 
+      }
     }
   }
 }
