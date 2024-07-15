@@ -1,68 +1,86 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext({
+  isAuthenticated: false,
+  userInfo: null,
+  checkAuthStatus: () => {},
+});
 
 export const useAuth = () => {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 };
 
 const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [userInfo, setUserInfo] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
 
-    const getUserAuthStatus = async () => {
-        const token = await AsyncStorage.getItem('access_token');
-        return token !== null;
-    };
+  const getUserAuthStatus = async () => {
+    const token = await AsyncStorage.getItem('access_token');
+    return token !== null;
+  };
 
-    const getUserInfo = async () => {
-        const accessToken = await AsyncStorage.getItem('access_token');
-        if (!accessToken) return null;
+  const getUserInfo = async () => {
+    const accessToken = await AsyncStorage.getItem('access_token');
+    if (!accessToken) return null;
 
-        const userCode = await AsyncStorage.getItem('user_code');
+    const userCode = await AsyncStorage.getItem('user_code');
 
-        if (!userCode) return null;
+    if (!userCode) return null;
 
-        try {
-            const response = await fetch('https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev//users/${userCode}', {
-                headers: {
-                    'Authorization': Bearer ${accessToken},
-                },
-            });
+    try {
+      const response = await fetch(`https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/users/${userCode}`, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-            if (response.ok) {
-                return await response.json();
-            } else {
-                throw new Error('Failed to fetch user info');
-            }
-        } catch (error) {
-            console.error('Error fetching user info:', error);
-            return null;
-        }
-    };
+      if (response.ok) {
+        return await response.json();
+      } else {
+        throw new Error('Failed to fetch user info');
+      }
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+      return null;
+    }
+  };
 
-    const checkAuthStatus = async () => {
-        const isLoggedIn = await getUserAuthStatus();
-        setIsAuthenticated(isLoggedIn);
+  // const checkAuthStatus = async () => {
+  //   const isLoggedIn = await getUserAuthStatus();
+  //   setIsAuthenticated(isLoggedIn);
 
-        if (isLoggedIn) {
-            const user = await getUserInfo();
-            setUserInfo(user);
-        } else {
-            setUserInfo(null);
-        }
-    };
+  //   if (isLoggedIn) {
+  //     const user = await getUserInfo();
+  //     setUserInfo(user);
+  //   } else {
+  //     setUserInfo(null);
+  //   }
+  // };
 
-    useEffect(() => {
-        checkAuthStatus();
-    }, []);
+  const checkAuthStatus = async () => {
+    const isLoggedIn = await getUserAuthStatus();
+    setIsAuthenticated(isLoggedIn);
+  
+    if (isLoggedIn) {
+      const user = await getUserInfo();
+      setUserInfo(user); // Update userInfo state with the fetched user data
+    } else {
+      setUserInfo(null);
+    }
+  };  
+  
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, userInfo, checkAuthStatus }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, userInfo, checkAuthStatus }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

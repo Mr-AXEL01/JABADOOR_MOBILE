@@ -57,7 +57,7 @@ const Listings = ({ selectedCategory }) => {
     };
 
     fetchData();
-  }, [i18n.language]); // Update when the language changes
+  }, [i18n.language]);
 
   const filteredListings = selectedCategory && selectedCategory !== 'all'
     ? listings.filter(listing => listing.category.category_code === selectedCategory)
@@ -66,11 +66,11 @@ const Listings = ({ selectedCategory }) => {
   const renderItem = ({ item }) => (
     <Animated.View style={styles.card} entering={FadeInRight} exiting={FadeOutLeft}>
       <Carousel
-      style={styles.carousel}
-      showsControls={false}
-      dotStyle={styles.dotStyle}
-      activeDotStyle={[styles.dotStyle, { backgroundColor: 'white' }]}
-    >
+        style={styles.carousel}
+        showsControls={false}
+        dotStyle={styles.dotStyle}
+        activeDotStyle={[styles.dotStyle, { backgroundColor: 'white' }]}
+      >
       {item.image.map(img => (
         <TouchableOpacity
           key={item.Host_code}
@@ -83,7 +83,7 @@ const Listings = ({ selectedCategory }) => {
           />
         </TouchableOpacity>
       ))}
-    </Carousel>
+      </Carousel>
       <TouchableOpacity style={styles.roundButton} onPress={() => shareListing(item)}>
         <AntDesign name="sharealt" size={16} color={'#000'} />
       </TouchableOpacity>

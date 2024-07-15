@@ -27,7 +27,13 @@
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION"
-      ]
+      ],
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCjcH8ScF1kcmTEstW0BMUV4pSqRcADljE"
+        }
+      }
     },
     "web": {
       "bundler": "metro",
@@ -47,11 +53,6 @@
       },
       "eas": {
         "projectId": "61273bcc-ead2-470e-9ad8-8d3237f415d8"
-      }
-    },
-    "config": {
-      "googleMaps": {
-        "apiKey": "AIzaSyCjcH8ScF1kcmTEstW0BMUV4pSqRcADljE" 
       }
     }
   }

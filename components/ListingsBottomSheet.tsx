@@ -8,7 +8,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const ListingsBottomSheet = ({ selectedCategory }: Props) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['6%', '100%'], []);
+  const snapPoints = useMemo(() => ['4%', '100%'], []);
 
   const onShowMap = () => {
     bottomSheetRef.current?.collapse();
@@ -20,9 +20,9 @@ const ListingsBottomSheet = ({ selectedCategory }: Props) => {
         index={1}
         snapPoints={snapPoints}
         enablePanDownToClose={false}
-        handleIndicatorStyle={{ backgroundColor: Colors.grey }}
+        handleIndicatorStyle={{ backgroundColor: Colors.grey , width: 50, }}
         style={styles.sheetContainer}
-      >
+    >
         <Listings selectedCategory={selectedCategory} />
         {/* <BottomSheetScrollView Style={styles.contentContainer}>
           <Listings selectedCategory={selectedCategory} />

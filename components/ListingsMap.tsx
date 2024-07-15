@@ -6,13 +6,12 @@ import * as Location from 'expo-location';
 import axios from 'axios';
 import MapView from 'react-native-map-clustering';
 
-// Using React.memo to optimize component rendering
 const ListingsMap = React.memo(({ selectedCategory }) => {
   const [region, setRegion] = useState(null);
   const [listings, setListings] = useState([]);
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
-  const fetchedListings = useRef(false); // Prevent refetching listings
+  const fetchedListings = useRef(false);
 
   useEffect(() => {
     const requestLocationPermissions = async () => {
@@ -20,7 +19,7 @@ const ListingsMap = React.memo(({ selectedCategory }) => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
           Alert.alert('Permission to access location was denied');
-          setLoading(false); // Stop loading to prevent infinite loop
+          setLoading(false);
           return;
         }
 
@@ -33,11 +32,12 @@ const ListingsMap = React.memo(({ selectedCategory }) => {
         });
       } catch (error) {
         Alert.alert('Error accessing location:', error.message);
+        setLoading(false);
       }
     };
 
     const fetchListings = async () => {
-      if (fetchedListings.current) return; // Do not fetch again if already fetched
+      if (fetchedListings.current) return;
       try {
         const response = await axios.get('https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/hosts');
         setListings(response.data);
@@ -53,7 +53,6 @@ const ListingsMap = React.memo(({ selectedCategory }) => {
     fetchListings();
   }, []);
 
-  // Use useMemo to memoize filteredListings
   const filteredListings = useMemo(() => {
     return selectedCategory && selectedCategory !== 'all'
       ? listings.filter(listing => listing.category.category_code === selectedCategory)

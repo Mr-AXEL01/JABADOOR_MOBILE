@@ -65,6 +65,19 @@ function RootLayoutNav() {
             ),
           }}
         /> */}
+        <Stack.Screen
+          name="(modals)/register"  // Ensure the name here matches exactly what you're navigating to
+          options={{
+            headerTitle: '', 
+            headerShown: false ,
+            presentation: 'modal',
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="close-outline" size={28} />
+              </TouchableOpacity>
+            ),
+          }}
+        />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="listing/[Host_code]" options={{ headerTitle: '', headerShown: false }} />
         <Stack.Screen
