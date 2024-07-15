@@ -18,7 +18,7 @@ const Page = () => {
   useEffect(() => {
     const fetchHostDetails = async () => {
       try {
-        const response = await axios.get(`https://azhzx0jphc.execute-api.eu-north-1.amazonaws.com/dev/hosts/${Host_code}?lang=${i18n.language}`);
+        const response = await axios.get(`https://main.d2l6gogmmvjffr.amplifyapp.com/hosts/${Host_code}?lang=${i18n.language}`);
         setHost(response.data);
       } catch (error) {
         console.error('Error fetching host details:', error);
